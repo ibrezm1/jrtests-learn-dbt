@@ -1,0 +1,14 @@
+{{ config(materialized='table') }}
+
+SELECT 
+   C.C_CUSTKEY,
+   C.C_NAME,
+   C.C_NATIONKEY as nation,
+   sum(O.O_TOTALPRICE) as total_price
+FROM "SNOWFLAKE_SAMPLE_DATA"."TPCH_SF1"."CUSTOMER" C
+LEFT OUTER JOIN "SNOWFLAKE_SAMPLE_DATA"."TPCH_SF1"."ORDERS" O
+    ON C.C_CUSTKEY	 = O.O_CUSTKEY	
+
+GROUP BY C.C_CUSTKEY,
+   C.C_NAME,
+   C.C_NATIONKEY 
